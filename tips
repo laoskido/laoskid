@@ -1,0 +1,47 @@
+https://github.com/BPI-SINOVOIP/BPI-M4-bsp/issues/4
+
+edit the file ./linux-rtk/scripts/dtc/dtc-lexer-lex.c Find the line 'YYLTYPE yylloc' and change it to 'extern YYLTYPE yylloc'
+
+
+ust change CONFIG_CPU_32v5 to CONFIG_CPU_32v6 in ./include/config/auto.conf and it will become armv6, but I still have to figure out how to add "preempt" option.
+
+source .bashrc
+ERROR1 : extern 
+
+ERROR2 : #define TRACE_INCLUDE_FILE ../drivers/net/ethernet/msm/rndis_ipa_trace  --> ADD to rndis_ipa_trace.h this path 
+
+ERRO3: #define TRACE_INCLUDE_FILE ../drivers/platform/msm/ipa/ipa_v2/ipa_trace	--> ADD to ipa_trace.h in this v2 directory
+
+ERROR4 : #define TRACE_INCLUDE_FILE ../drivers/platform/msm/ipa/ipa_v3/ipa_trace	--> ADD to ipa_trace.h in this v3 directory
+
+ERROR 5 : #define TRACE_INCLUDE_PATH ../../drivers/soc/qcom -> tracer_pkt_private.h
+
+ERROR 6 : drivers/usb/gadget/function/f_mtp.c:43:22: fatal error: configfs.h: No such file or directory
+	-----> copy file configfs.h from usg/gadget to -> gadget / function
+	
+	-Wno-format-security \
+	
+	Create symlinks for drivers/usb/gadget/configfs.h, drivers/usb/gadget/debug.h,
+	 drivers/usb/gadget/u_f.h in drivers/usb/gadget/function folder and compile.
+	
+
+
+CFLAGS += -Wformat=2 -Werror -Wall -Wextra -Wswitch-default -Wswitch-enum -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn
+
+GCC 8.3  "CFLAGS= -pipe -O2 -mfloat-abi=softfp -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vpfv4"
+
+mdm9640-perf_defconfig
+make -j4 ARCH=arm SUBARCH=arm CROSS_COMPILE=arm-linux-gnueabi- "CFLAGS= -pipe -O2 -mfloat-abi=softfp -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vpfv4" mdm9640-perf_defconfig
+
+uname -a  -->>>>>MR1100 : Linux mdm9650 3.18.31 #1 PREEMPT Wed Oct 16 12:49:22 PDT 2019 armv7l GNU/Linux
+
+HOST --> modinfo --->vermagic:       3.18.31 preempt mod_unload ARMv7 p2v8
+
+Target modinfo --->># modinfo br_netfilter.ko
+filename:       br_netfilter.ko
+license:        GPL
+author:         Bart De Schuymer <bdschuym@pandora.be>
+author:         Lennert Buytenhek <buytenh@gnu.org>
+description:    Linux ethernet netfilter firewall bridge
+depends:        
+vermagic:       3.18.31 preempt mod_unload ARMv7 p2v8 
